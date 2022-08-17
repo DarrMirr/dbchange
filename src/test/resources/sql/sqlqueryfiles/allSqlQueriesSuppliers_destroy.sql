@@ -1,0 +1,1 @@
+delete occupation where id = 11;

@@ -1,0 +1,1 @@
+insert into employee(id, department_id, occupation_id, first_name, last_name) values (13, 17, 11, 'Ivan', 'Ivanov')
