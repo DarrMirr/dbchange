@@ -1,7 +1,7 @@
-# DbChange
-JUnit 5 extension to execute sql queries in tests
+![](docs/img/DbChange.drawio.png)
 
 ---
+Easy and declarative way to execute sql queries in JUnit tests.
 
 ### Project goals
 
@@ -194,6 +194,8 @@ There are following sql queries suppliers:
 
 
 See usage example in `com.github.darrmirr.dbchange.component.DbChangeUsageTest` class.
+
+Read article on [medium.com](https://darrmirr.medium.com/introduction-to-dbchange-junit-extension-7995a5a639e7) for more details
 
 ### Minimum requirements:
 
