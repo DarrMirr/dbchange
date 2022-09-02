@@ -10,16 +10,6 @@ version = project.property("project.version")!!
 repositories {
     mavenLocal()
     mavenCentral()
-    // for deployment to Maven Central
-    maven {
-        val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-        val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-        url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
-        credentials {
-            username = project.properties["ossrhUsername"].toString()
-            password = project.properties["ossrhPassword"].toString()
-        }
-    }
 }
 
 // versions
@@ -97,6 +87,17 @@ publishing {
                         name.set("Darr Mirr (Vladimir S. Polukeev)")
                         email.set("polukeev.v.s@yandex.ru")
                     }
+                }
+            }
+        }
+        repositories {
+            maven {
+                val releasesUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                val snapshotsUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+                url = if (version.toString().endsWith("SNAPSHOT")) snapshotsUrl else releasesUrl
+                credentials {
+                    username = project.properties["ossrhUsername"].toString()
+                    password = project.properties["ossrhPassword"].toString()
                 }
             }
         }
