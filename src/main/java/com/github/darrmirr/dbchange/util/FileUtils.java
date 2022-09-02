@@ -33,7 +33,7 @@ public final class FileUtils {
                         .append(System.lineSeparator());
             }
             // cut last line separator
-            stringBuilder.setLength(stringBuilder.length() - 2);
+            stringBuilder.setLength(stringBuilder.length() - 1);
             return stringBuilder.toString();
         } catch (IOException e) {
             throw new IllegalStateException(e);
