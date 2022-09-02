@@ -2,6 +2,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    id("io.codearte.nexus-staging") version "0.30.0"
 }
 
 group = "io.github.darrmirr"
@@ -53,6 +54,7 @@ java {
     withSourcesJar()
 }
 
+// for deployment to Maven Central
 publishing {
     publications {
         create<MavenPublication>(project.name) {
@@ -110,8 +112,16 @@ signing {
     sign(publishing.publications[project.name])
 }
 
+// for deployment to Maven Central
+// after publishing to Sonatype repository it is required to release artifact from private part of repository to publish one
+nexusStaging {
+    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+    username = project.properties["ossrhUsername"].toString()
+    password = project.properties["ossrhPassword"].toString()
+}
+
 /**
- * There are two ways to install extension to maven project:
+ * There are two ways to manually install extension to maven project:
  *
  * 1. Execute command manually:
  *    - mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=libs/dbchange-1.0.0-SNAPSHOT.jar
@@ -147,4 +157,3 @@ tasks.jar {
         rename("pom-default.xml", "pom.xml")
     }
 }
-
