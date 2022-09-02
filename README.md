@@ -43,60 +43,26 @@ public class DbChangeUsageTest {
 
 ### How to plug library into project
 
-#### Precondition:
-1. Create `libs/` directory in project root.
-2. Download latest version of Dbchange JAR file from project release page.
-3. Copy downloaded Dbchange JAR file into `libs/` directory.
-
 #### Gradle
 1. Open to edit `build.gradle.kts` (or `build.gradle` for groovy)
-2. Add `flatDir` in repository section (example uses Kotlin):
-```kotlin
-repository {
-    flatDir{
-        dirs('libs')
-    }
-}
-```
-3. Add `Dbchange` dependency to project
+2. Add `Dbchange` dependency to project
 ```kotlin
 dependencies {
-    testImplementation 'com.github.darrmirr:dbchange:1.0.0'
+    testImplementation("io.github.darrmirr:dbchange:1.0.1")
 }
 ```
-4. Build gradle project
 
 #### Maven
 1. Open to edit your project `pom.xml`
 2. Add `Dbchange` dependency to dependecies section
 ```xml
-    <dependecy>
-        <groupId>com.github.darrmirr</groupId>
+    <dependency>
+        <groupId>io.github.darrmirr</groupId>
         <artifactId>dbchange</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <scope>test</scope>
-    </dependecy>
+    </dependency>
 ```
-3. Add maven install plugin
-```xml
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-install-plugin</artifactId>
-        <executions>
-           <execution>
-               <id>install-dbchange</id>
-               <phase>generate-sources</phase>
-               <goals>
-                   <goal>install-file</goal>
-               </goals>
-               <configuration>
-                   <file>${basedir}/libs/dbchange-1.0.0.jar</file>
-               </configuration>
-          </execution>
-       </executions>
-    </plugin>
-```
-4. Executes command `mvn compile`
 
 ### How to use extension
 1. (mandatory) Put `@ExtendWith(DbChangeExtension.class)` on test class.
