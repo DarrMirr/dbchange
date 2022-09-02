@@ -56,12 +56,12 @@ dependencies {
 1. Open to edit your project `pom.xml`
 2. Add `Dbchange` dependency to dependecies section
 ```xml
-    <dependecy>
+    <dependency>
         <groupId>io.github.darrmirr</groupId>
         <artifactId>dbchange</artifactId>
         <version>1.0.1</version>
         <scope>test</scope>
-    </dependecy>
+    </dependency>
 ```
 
 ### How to use extension
