@@ -48,7 +48,7 @@ public class DbChangeUsageTest {
 2. Add `Dbchange` dependency to project
 ```kotlin
 dependencies {
-    testImplementation "io.github.darrmirr:dbchange:1.0.1"
+    testImplementation("io.github.darrmirr:dbchange:1.0.1")
 }
 ```
 
