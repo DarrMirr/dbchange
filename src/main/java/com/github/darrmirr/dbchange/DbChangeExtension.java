@@ -1,13 +1,9 @@
 package com.github.darrmirr.dbchange;
 
-import com.github.darrmirr.dbchange.changeset.ChangeSetFactory;
-import com.github.darrmirr.dbchange.changeset.ChangeSetItem;
-import com.github.darrmirr.dbchange.changeset.ChangeSetProvider;
 import com.github.darrmirr.dbchange.meta.DbChangeMeta;
 import com.github.darrmirr.dbchange.meta.DbChangeMeta.ExecutionPhase;
 import com.github.darrmirr.dbchange.meta.DbChangeMetaFactory;
-import com.github.darrmirr.dbchange.sql.executor.factory.SqlExecutorFactory;
-import com.github.darrmirr.dbchange.sql.query.factory.SqlQueryFactory;
+import com.github.darrmirr.dbchange.util.Executor;
 import com.github.darrmirr.dbchange.util.ParameterizedArgumentsViewer;
 import com.github.darrmirr.dbchange.util.ParameterizedExtensionContext;
 import com.github.darrmirr.dbchange.util.function.TestInstanceConsumer;
@@ -16,9 +12,11 @@ import org.junit.jupiter.api.extension.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+
+import static com.github.darrmirr.dbchange.util.function.Functions.CHANGESET_EXTRACTOR;
+import static com.github.darrmirr.dbchange.util.function.Functions.SQL_EXECUTOR;
 
 /**
  * Main class of DbChange JUnit extension.
@@ -91,24 +89,13 @@ public class DbChangeExtension extends ParameterizedArgumentsViewer implements E
         log.debug("{} finish work after parameterized test execution", DbChangeExtension.class.getName());
     }
 
-    private void handle(TestInstanceSupplier testClassInstanceSupplier, Supplier<List<DbChangeMeta>> dbChangeListSupplier) {
-        Object testClassInstance = testClassInstanceSupplier.get();
+    private void handle(TestInstanceSupplier testInstanceSupplier, Supplier<List<DbChangeMeta>> dbChangeListSupplier) {
         List<DbChangeMeta> dbChangeList = dbChangeListSupplier.get();
         for (DbChangeMeta dbChange : dbChangeList) {
             if (dbChange.isChangeSetPresent()) {
-                List<ChangeSetItem> changeSet = SqlQueryFactory
-                        .getStream(dbChange, testClassInstance)
-                        .map(ChangeSetFactory::get)
-                        .reduce(ChangeSetProvider::chain)
-                        .orElse(Collections::emptyList)
-                        .getChangeSet();
-                if (changeSet.isEmpty()) {
-                    log.warn("Change set is empty : [ object=" + dbChange + "]");
-                } else {
-                    SqlExecutorFactory
-                            .get(dbChange, testClassInstance)
-                            .execute(changeSet);
-                }
+                Executor.execute(dbChange)
+                        .with(CHANGESET_EXTRACTOR, SQL_EXECUTOR)
+                        .accept(dbChange, testInstanceSupplier);
             } else {
                 log.warn("Change set is empty : [ object=" + dbChange + "]");
             }

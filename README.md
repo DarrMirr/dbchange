@@ -172,3 +172,8 @@ Read article on [medium.com](https://darrmirr.medium.com/introduction-to-dbchang
 *Development:*
 - JDK 8
 - Gradle 7
+
+### Aricles:
+
+- [On medium.com](https://darrmirr.medium.com/introduction-to-dbchange-junit-extension-7995a5a639e7)
+- [On habr.com](https://habr.com/ru/post/684692/)
