@@ -56,7 +56,11 @@ public final class PreparedSql {
                     inSingleQuote = true;
                 } else if (c == '"') {
                     inDoubleQuote = true;
-                } else if (c == ':' && i + 1 < length && Character.isJavaIdentifierStart(query.charAt(i + 1))) {
+                } else if (c == ':'                                               // sql query parameter indicator
+                        && i + 1 < length                                         // make checking next condition safe
+                        && Character.isJavaIdentifierStart(query.charAt(i + 1))   // verify that parameter name is valid one
+                        && (i == 0 || query.charAt(i - 1) != ':')                 // check for postgres sql `::type` cast expression
+                ) {
                     int j = i + 2;
                     while (j < length && Character.isJavaIdentifierPart(query.charAt(j))) {
                         j++;

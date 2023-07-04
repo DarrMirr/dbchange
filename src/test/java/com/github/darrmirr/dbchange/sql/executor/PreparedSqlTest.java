@@ -59,4 +59,13 @@ class PreparedSqlTest {
 
         assertThat(preparedSql.get(), equalTo(sql));
     }
+
+    @Test
+    void queryPostgresqlCastShort() {
+        String sql = "select '3'::int";
+
+        PreparedSql preparedSql = PreparedSql.of(sql);
+
+        assertThat(preparedSql.get(), equalTo(sql));
+    }
 }
